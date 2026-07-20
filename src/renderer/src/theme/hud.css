@@ -1,0 +1,317 @@
+/* ============================================================
+   EXIF//DECK — dark HUD theme
+   Motif: pro-camera viewfinder OSD. Corner brackets = AF focus
+   brackets, status bar = exposure readout, cyan = focus peaking.
+   ============================================================ */
+
+:root {
+  --bg: #05080d;
+  --bg-panel: #0a1018;
+  --bg-raised: #0e1620;
+  --line: #12202e;
+  --line-bright: rgba(0, 229, 255, 0.3);
+  --cyan: #00e5ff;
+  --cyan-dim: rgba(0, 229, 255, 0.12);
+  --cyan-glow: rgba(0, 229, 255, 0.45);
+  --amber: #ffb300;
+  --red: #ff3b4b;
+  --green: #3dffa0;
+  --text: #c8d6e5;
+  --text-dim: #5c7189;
+  --text-faint: #37485c;
+  --display: 'Rajdhani', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --notch: 12px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Ambient grid + vignette behind everything */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.35;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+  z-index: 0;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+::selection {
+  background: var(--cyan-dim);
+  color: var(--cyan);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border: 1px solid var(--bg-panel);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-faint);
+}
+
+/* ---------- Type ---------- */
+
+.display {
+  font-family: var(--display);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.label {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-dim);
+}
+
+/* ---------- Cut-corner panel primitive ---------- */
+
+/* Gradient 1px rim: outer element is the border color, an inset
+   pseudo-element repaints the panel background 1px inside it. */
+.panel {
+  position: relative;
+  background: linear-gradient(135deg, var(--line-bright), rgba(0, 229, 255, 0.06) 45%, var(--line-bright));
+  clip-path: polygon(
+    var(--notch) 0,
+    100% 0,
+    100% calc(100% - var(--notch)),
+    calc(100% - var(--notch)) 100%,
+    0 100%,
+    0 var(--notch)
+  );
+}
+
+.panel::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  pointer-events: none;
+  background: var(--bg-panel);
+  clip-path: polygon(
+    calc(var(--notch) - 1px) 0,
+    100% 0,
+    100% calc(100% - var(--notch) + 1px),
+    calc(100% - var(--notch) + 1px) 100%,
+    0 100%,
+    0 calc(var(--notch) - 1px)
+  );
+}
+
+.panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Fallback simpler border for panels where the fancy clip misbehaves */
+.panel-simple {
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+}
+
+/* ---------- AF-bracket focus corners (the signature) ---------- */
+
+.af-brackets {
+  position: relative;
+}
+
+.af-brackets > .af {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  border-color: var(--cyan);
+  border-style: solid;
+  border-width: 0;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 3;
+}
+
+.af-brackets.active > .af {
+  opacity: 1;
+  animation: af-lock 0.3s ease;
+}
+
+.af-tl { top: -2px; left: -2px; border-top-width: 2px; border-left-width: 2px; }
+.af-tr { top: -2px; right: -2px; border-top-width: 2px; border-right-width: 2px; }
+.af-bl { bottom: -2px; left: -2px; border-bottom-width: 2px; border-left-width: 2px; }
+.af-br { bottom: -2px; right: -2px; border-bottom-width: 2px; border-right-width: 2px; }
+
+@keyframes af-lock {
+  0% { transform: scale(1.35); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--cyan);
+  background: var(--cyan-dim);
+  border: 1px solid var(--line-bright);
+  padding: 7px 16px 6px;
+  cursor: pointer;
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  transition: background 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn:hover:not(:disabled) {
+  background: rgba(0, 229, 255, 0.22);
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.25) inset;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  color: var(--text-faint);
+  background: transparent;
+  border-color: var(--line);
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-dim);
+  border-color: var(--line);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  color: var(--cyan);
+  border-color: var(--line-bright);
+  background: var(--cyan-dim);
+  box-shadow: none;
+}
+
+.btn-danger {
+  color: var(--red);
+  background: rgba(255, 59, 75, 0.1);
+  border-color: rgba(255, 59, 75, 0.35);
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: rgba(255, 59, 75, 0.2);
+  box-shadow: 0 0 14px rgba(255, 59, 75, 0.2) inset;
+}
+
+/* ---------- Inputs ---------- */
+
+.input {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  width: 100%;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--line-bright);
+  box-shadow: 0 0 0 1px var(--line-bright), 0 0 12px rgba(0, 229, 255, 0.12);
+}
+
+.input::placeholder {
+  color: var(--text-faint);
+}
+
+/* ---------- Status dot ---------- */
+
+.dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot-pending { background: var(--text-faint); }
+.dot-processing {
+  background: var(--cyan);
+  animation: pulse 1s ease-in-out infinite;
+  box-shadow: 0 0 8px var(--cyan-glow);
+}
+.dot-done { background: var(--green); box-shadow: 0 0 6px rgba(61, 255, 160, 0.5); }
+.dot-error { background: var(--red); box-shadow: 0 0 6px rgba(255, 59, 75, 0.5); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* ---------- Row scan-in cascade ---------- */
+
+.scan-in {
+  animation: scan-in 0.35s ease both;
+}
+
+@keyframes scan-in {
+  from { opacity: 0; transform: translateX(-6px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001s !important;
+    transition-duration: 0.001s !important;
+  }
+}

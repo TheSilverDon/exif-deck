@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output
+out/
+dist/
+dist-electron/
+release/
+
+# TypeScript incremental build info
+*.tsbuildinfo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Local env (this app stores keys in the OS keystore, not here — but never commit these)
+.env
+.env.*

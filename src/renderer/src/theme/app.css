@@ -1,0 +1,676 @@
+/* ---------- App shell: header / three columns / status bar ---------- */
+
+.shell {
+  display: grid;
+  grid-template-rows: 52px 1fr 30px;
+  height: 100%;
+  gap: 10px;
+  padding: 10px 12px;
+}
+
+/* Header */
+.hud-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 16px;
+}
+
+.hud-title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 0.22em;
+  color: var(--text);
+}
+
+.hud-title .slash {
+  color: var(--cyan);
+  text-shadow: 0 0 10px var(--cyan-glow);
+}
+
+.hud-sub {
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  font-family: var(--display);
+  font-weight: 600;
+  border-left: 1px solid var(--line);
+  padding-left: 18px;
+}
+
+.hud-header .spacer {
+  flex: 1;
+}
+
+/* Main three-zone grid */
+.deck {
+  display: grid;
+  grid-template-columns: 270px 1fr;
+  gap: 10px;
+  min-height: 0;
+}
+
+.deck.with-map {
+  grid-template-columns: 270px 1fr 390px;
+}
+
+.zone {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+}
+
+.zone-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.zone-body {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+/* Status bar — reads like a viewfinder exposure strip */
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 0 14px;
+  font-size: 11px;
+  color: var(--text-dim);
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.status-bar .stat b {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.status-bar .stat.err {
+  color: var(--red);
+}
+
+.status-bar .flex-spacer {
+  flex: 1;
+}
+
+.status-bar .attribution {
+  color: var(--text-faint);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+}
+
+/* ---------- File queue ---------- */
+
+.queue-list {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  gap: 4px;
+}
+
+.queue-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 12px;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+
+.queue-item:hover {
+  background: var(--bg-raised);
+}
+
+.queue-item.selected {
+  background: var(--cyan-dim);
+  border-color: var(--line-bright);
+}
+
+.queue-item:focus-visible {
+  outline: 1px solid var(--cyan);
+}
+
+.queue-item .fname {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.queue-item .fsize {
+  color: var(--text-faint);
+  font-size: 10px;
+}
+
+.gps-flag {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: var(--cyan);
+  background: var(--cyan-dim);
+  border: 1px solid var(--line-bright);
+  padding: 0 5px;
+  flex-shrink: 0;
+  text-shadow: 0 0 6px var(--cyan-glow);
+}
+
+.queue-item .ferr {
+  color: var(--red);
+  font-size: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 110px;
+}
+
+.queue-item.thumbs {
+  padding: 6px 10px;
+}
+
+.queue-thumb {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.queue-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.clear-all {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-dim);
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 3px 9px;
+  cursor: pointer;
+  transition: color 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+}
+
+.clear-all:hover {
+  color: var(--red);
+  border-color: rgba(255, 59, 75, 0.4);
+  background: rgba(255, 59, 75, 0.1);
+}
+
+.clear-all:focus-visible {
+  outline: 1px solid var(--red);
+}
+
+.thumb-toggle {
+  font-size: 13px;
+  line-height: 1;
+  color: var(--text-faint);
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 2px 6px 3px;
+  cursor: pointer;
+  transition: color 0.12s ease, border-color 0.12s ease;
+}
+
+.zone-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.thumb-toggle:hover {
+  color: var(--cyan);
+  border-color: var(--line-bright);
+}
+
+.thumb-toggle.on {
+  color: var(--cyan);
+  border-color: var(--line-bright);
+  background: var(--cyan-dim);
+}
+
+.thumb-toggle:focus-visible {
+  outline: 1px solid var(--cyan);
+}
+
+.queue-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- Drop zone ---------- */
+
+.dropzone {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 12px;
+  border: 1px dashed var(--line);
+  color: var(--text-dim);
+  cursor: pointer;
+  background: transparent;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  min-height: 140px;
+}
+
+.dropzone:hover,
+.dropzone.drag-over {
+  border-color: var(--line-bright);
+  background: var(--cyan-dim);
+  color: var(--cyan);
+}
+
+.dropzone .reticle {
+  width: 44px;
+  height: 44px;
+  position: relative;
+  opacity: 0.7;
+}
+
+.dropzone .reticle::before,
+.dropzone .reticle::after {
+  content: '';
+  position: absolute;
+  background: currentColor;
+}
+
+.dropzone .reticle::before {
+  left: 50%;
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+}
+
+.dropzone .reticle::after {
+  top: 50%;
+  left: 6px;
+  right: 6px;
+  height: 1px;
+}
+
+.dropzone-full {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 8, 13, 0.85);
+  border: 2px dashed var(--cyan);
+  color: var(--cyan);
+  font-family: var(--display);
+  font-size: 22px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* ---------- Metadata panel ---------- */
+
+.meta-toolbar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.meta-toolbar .input {
+  max-width: 260px;
+}
+
+.meta-section {
+  border-bottom: 1px solid var(--line);
+}
+
+.meta-section-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 14px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text);
+  text-align: left;
+}
+
+.meta-section-head:hover {
+  background: var(--bg-raised);
+}
+
+.meta-section-head .chevron {
+  color: var(--cyan);
+  font-size: 10px;
+  width: 12px;
+  transition: transform 0.15s ease;
+}
+
+.meta-section-head .chevron.closed {
+  transform: rotate(-90deg);
+}
+
+.meta-count {
+  font-size: 10px;
+  color: var(--cyan);
+  background: var(--cyan-dim);
+  border: 1px solid var(--line-bright);
+  padding: 1px 7px;
+  margin-left: auto;
+}
+
+.meta-rows {
+  display: grid;
+  grid-template-columns: minmax(160px, 34%) 1fr;
+}
+
+.meta-key,
+.meta-val {
+  padding: 5px 14px;
+  border-top: 1px solid rgba(18, 32, 46, 0.55);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.meta-key {
+  color: var(--text-dim);
+}
+
+.meta-val {
+  color: var(--text);
+  cursor: copy;
+  position: relative;
+}
+
+.meta-val:hover {
+  color: var(--cyan);
+  background: rgba(0, 229, 255, 0.05);
+}
+
+.meta-val .copied {
+  position: absolute;
+  right: 10px;
+  top: 4px;
+  font-size: 10px;
+  color: var(--green);
+}
+
+.raw-json {
+  padding: 14px;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--text);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Inspector preview strip */
+.preview-strip {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.preview-frame {
+  display: inline-flex;
+  flex-shrink: 0;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 3px;
+}
+
+.preview-img {
+  display: block;
+  max-width: 132px;
+  max-height: 96px;
+  object-fit: contain;
+}
+
+.preview-stats {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.pstat {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.pstat-val {
+  font-size: 13px;
+  color: var(--text);
+}
+
+/* Empty / placeholder states */
+.empty-state {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--text-faint);
+  font-family: var(--display);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 12px;
+  text-align: center;
+  padding: 20px;
+}
+
+/* ---------- Map panel ---------- */
+
+.map-wrap {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+}
+
+.map-canvas {
+  position: absolute;
+  inset: 0;
+}
+
+.map-coords {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 5;
+  background: rgba(5, 8, 13, 0.82);
+  border: 1px solid var(--line-bright);
+  color: var(--cyan);
+  font-size: 11px;
+  padding: 5px 10px;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+}
+
+.map-offline {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-faint);
+  font-family: var(--display);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+/* Glowing pulsing map marker */
+.gps-marker {
+  width: 16px;
+  height: 16px;
+  position: relative;
+}
+
+.gps-marker::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 10px var(--cyan-glow), 0 0 20px var(--cyan-glow);
+}
+
+.gps-marker::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--cyan);
+  animation: marker-ping 1.8s ease-out infinite;
+}
+
+@keyframes marker-ping {
+  0% { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* Mapbox chrome adjustments */
+.mapboxgl-ctrl-logo,
+.mapboxgl-ctrl-attrib {
+  filter: grayscale(1) brightness(0.7);
+}
+
+/* OSM tiles inverted into the HUD palette */
+.osm-dark-tiles {
+  filter: invert(1) hue-rotate(180deg) brightness(0.82) contrast(0.92) saturate(0.35);
+}
+
+.leaflet-container {
+  background: var(--bg);
+  font-family: var(--mono);
+}
+
+.leaflet-control-attribution {
+  background: rgba(5, 8, 13, 0.8) !important;
+  color: var(--text-faint) !important;
+  font-size: 9px !important;
+}
+
+.leaflet-control-attribution a {
+  color: var(--text-dim) !important;
+}
+
+.leaflet-bar a {
+  background: var(--bg-panel) !important;
+  color: var(--cyan) !important;
+  border-color: var(--line) !important;
+}
+
+/* Native select styled as HUD input */
+.select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--cyan) 50%),
+    linear-gradient(135deg, var(--cyan) 50%, transparent 50%);
+  background-position: calc(100% - 16px) 50%, calc(100% - 11px) 50%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.select option {
+  background: var(--bg-panel);
+  color: var(--text);
+}
+
+/* ---------- Settings modal ---------- */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(2, 4, 8, 0.75);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  width: 480px;
+  max-width: calc(100vw - 40px);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal .field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modal .hint {
+  font-size: 10.5px;
+  color: var(--text-faint);
+  line-height: 1.5;
+}
+
+.modal .actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 48px;
+  right: 20px;
+  z-index: 60;
+  padding: 10px 16px;
+  background: var(--bg-raised);
+  border: 1px solid var(--line-bright);
+  color: var(--text);
+  font-size: 12px;
+  animation: scan-in 0.25s ease;
+  max-width: 380px;
+}
+
+.toast.error {
+  border-color: rgba(255, 59, 75, 0.5);
+  color: var(--red);
+}
