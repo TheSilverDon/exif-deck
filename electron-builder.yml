@@ -1,0 +1,33 @@
+appId: com.thesilverdon.exif-deck
+productName: EXIF-DECK
+copyright: Copyright © 2026 TheSilverDon
+
+directories:
+  buildResources: build
+  output: release
+
+# Use exclusions rather than a whitelist so electron-vite's `out/` build and
+# production node_modules are included automatically, while dev-only source,
+# config, and docs are left out of the installer.
+files:
+  - '!**/.vscode/*'
+  - '!src/*'
+  - '!.github/*'
+  - '!docs/*'
+  - '!electron.vite.config.{js,ts,mjs,cjs}'
+  - '!electron-builder.yml'
+  - '!*.{js,cjs,mjs,ts}'
+  - '!*.tsbuildinfo'
+  - '!tsconfig*.json'
+  - '!package-lock.json'
+
+win:
+  target:
+    - nsis
+  artifactName: ${productName}-${version}-setup.${ext}
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  artifactName: ${productName}-${version}-setup.${ext}
